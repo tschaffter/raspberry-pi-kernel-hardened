@@ -57,10 +57,11 @@ Check the above documentation to make sure that these examples are up-to-date.
 ### Cross-compile the kernel
 
 The command below builds the branch `rpi-4.19.y` for the Raspberry Pi 4
-(`bcm2711_defconfig`). Because this branch is not stable, we include today's
-date to the value of `--kernel-localversion` (`4.19.y-20200614-hardened`).
+(`bcm2711_defconfig`). Because this branch is in progress, we include today's
+date to the value of `--kernel-localversion` (`4.19.y-20200614-hardened`). You
+can set the value of `--kernel-localversion` to anything you want.
 
-Once installed, the full kernel name will be
+Once installed, the full kernel name will be:
 
 ```console
 $ uname -a
@@ -106,7 +107,7 @@ Copy the Debian packages `$PWD/output/*.deb` to the target Raspbery Pi, for
 example using `scp`, then follow the instructions given at the end of the build
 command.
 
-## Notes
+## Customize your build
 
 - The builder uses all the CPU cores available to the Docker container. By default,
 that is all the CPU cores of the host. Use
@@ -121,7 +122,7 @@ a different toolchain and kernel source code.
 
 ```console
 $ git clone <toolchain-repo> tools
-$ git cllone <kernel-repo> linux
+$ git clone <kernel-repo> linux
 $ docker run \
     --rm \
     -v $PWD/output:/output \
