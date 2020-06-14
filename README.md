@@ -1,6 +1,6 @@
 # Hardened kernel for Raspberry Pi
 
-[![Docker Image](https://github.com/tschaffter/raspberry-pi-kernel-hardened/workflows/XXX/badge.svg)](https://hub.docker.com/repository/docker/tschaffter/raspberry-pi-kernel-hardened)
+[![Docker Image](https://github.com/tschaffter/raspberry-pi-kernel-hardened/workflows/Publish%20Docker%20Image/badge.svg)](https://hub.docker.com/repository/docker/tschaffter/raspberry-pi-kernel-hardened)
 
 ## Overview
 
