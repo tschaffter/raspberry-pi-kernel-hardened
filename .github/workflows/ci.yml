@@ -11,9 +11,7 @@ jobs:
     runs-on: ubuntu-18.04
 
     steps:
-    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
 
-    # Runs a single command using the runners shell
     - name: Run builder script with arguments `--help`
       run: ./build-kernel.sh --help
