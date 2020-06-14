@@ -55,7 +55,7 @@ _arg_kernel_localversion=""
 
 print_help()
 {
-	printf '%s\n' "The general script's help msg"
+	printf '%s\n' "Cross-compiling hardened kernels for Raspberry Pi"
 	printf 'Usage: %s [--kernel-branch <arg>] [--kernel-defconfig <arg>] [--kernel-localversion <arg>] [-h|--help]\n' "$0"
 	printf '\t%s\n' "--kernel-branch: Kernel branch to build (default: '')"
     printf '\t%s\n' "--kernel-defconfig: Default kernel config to use (default: '')"
@@ -143,6 +143,7 @@ _output_dir=/output
 
 
 # Check that the output directory exists and is writable
+test -d $_output_dir || die "Output directory $_output_dir does not exist" 1
 test -w $_output_dir || die "Output directory $_output_dir is not writable" 1
 
 
@@ -152,7 +153,7 @@ if [ -d $_tools_dir ]; then
 else
     echo "Installing cross compiler toolchain"
     git clone https://github.com/raspberrypi/tools $_tools_dir \
-        && die "ERROR: Unable to clone the cross compiler toolchain" 1
+        || die "ERROR: Unable to clone the cross compiler toolchain" 1
 fi
 
 
@@ -166,7 +167,7 @@ else
         --depth=1 \
         https://github.com/raspberrypi/linux \
         $_kernel_src_dir \
-        && die "Unable to clone kernel source code" 1
+        || die "Unable to clone kernel source code" 1
 fi
 
 
@@ -182,7 +183,7 @@ make mrproper
 
 echo "Creating initial .config"
 make ARCH=arm CROSS_COMPILE=$_ccprefix $_arg_kernel_defconfig \
-    && die "Unable to create initial .config" 1
+    || die "Unable to create initial .config" 1
 
 echo "Setting kernel local version"
 ./scripts/config --set-str  CONFIG_LOCALVERSION "-$_arg_kernel_localversion"
@@ -216,12 +217,12 @@ make ARCH=arm CROSS_COMPILE=$_ccprefix olddefconfig
 
 echo "Building kernel and generating .deb packages"
 DEB_HOST_ARCH=armhf make ARCH=arm CROSS_COMPILE=$_ccprefix deb-pkg -j$(($(nproc)+1)) \
-    && die "Unable to build or package kernel" 1
+    || die "Unable to build or package kernel" 1
 
 ls -al
 
 echo "Moving .deb packages to $_output_dir"
-mv *.deb /output
+mv $_workdir/*.deb /output
 
 
 echo "SUCCESS The kernel has been successfully packaged."
