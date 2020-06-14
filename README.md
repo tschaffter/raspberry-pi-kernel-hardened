@@ -1,10 +1,11 @@
-# Hardened kerrnel for Raspberry Pi
+# Hardened kernel for Raspberry Pi
+
+[![Docker Image](https://github.com/tschaffter/raspberry-pi-kernel-hardened/workflows/XXX/badge.svg)](https://hub.docker.com/repository/docker/tschaffter/raspberry-pi-kernel-hardened)
 
 ## Overview
 
-This repository provides a dockerized tool to cross-compile the [Linux kernel for
-Raspberry Pi](https://www.raspberrypi.org/documentation/linux/kernel/building.md)
-with enhanced security.
+Cross-compile the [Linux kernel for Raspberry Pi](https://www.raspberrypi.org/documentation/linux/kernel/building.md)
+with enhanced security using a single command.
 
 ## Features
 
