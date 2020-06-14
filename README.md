@@ -56,11 +56,9 @@ Check the above documentation to make sure that these examples are up-to-date.
 ### Cross-compile the kernel
 
 The command below builds the branch `rpi-4.19.y` for the Raspberry Pi 4
-(`bcm2711_defconfig`). Because this branch is not a release, we include today's
+(`bcm2711_defconfig`). Because this branch is in progress, we include today's
 date to the value of `--kernel-localversion` (`4.19.y-20200614-hardened`). You
-can set the value of `--kernel-localversion` to anything you want, ideally
-sticking to the same format if you plan to update your kernel regularly (e.g.
-`<branch-name>-<date>-hardened`).
+can set the value of `--kernel-localversion` to anything you want.
 
 Once installed, the full kernel name will be:
 
