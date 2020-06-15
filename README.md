@@ -1,4 +1,4 @@
-# Hardened kernel for Raspberry Pi
+# Hardened Kernel Builder for RPi
 
 [![Docker Image](https://github.com/tschaffter/raspberry-pi-kernel-hardened/workflows/Publish%20Docker%20Image/badge.svg)](https://hub.docker.com/repository/docker/tschaffter/raspberry-pi-kernel-hardened)
 
