@@ -28,7 +28,7 @@ Usage: build-kernel.sh [--kernel-branch <arg>] [--kernel-defconfig <arg>] [--ker
     -h, --help: Prints help
 ```
 
-## Build the hardered kernel
+## Build an hardened kernel
 
 ### Identify the kernel version to build
 
