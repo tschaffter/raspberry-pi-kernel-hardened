@@ -37,7 +37,7 @@ and identify the name of the branch or tag that you want to build.
 
 Examples:
 
-- The branch `rpi-4.19.y`
+- The branch `rpi-5.4.y`
 - The tag `raspberrypi-kernel_1.20200527-1`
 
 ### Identify the default configuration to use
@@ -56,16 +56,16 @@ Check the above documentation to make sure that these examples are up-to-date.
 
 ### Cross-compile the kernel
 
-The command below builds the branch `rpi-4.19.y` for the Raspberry Pi 4
+The command below builds the branch `rpi-5.4.y` for the Raspberry Pi 4
 (`bcm2711_defconfig`). Because this branch is in progress, we include today's
-date to the value of `--kernel-localversion` (`4.19.y-20200614-hardened`). You
+date to the value of `--kernel-localversion` (`5.4.y-20200804-hardened`). You
 can set the value of `--kernel-localversion` to anything you want.
 
 Once installed, the full kernel name will be:
 
 ```console
 $ uname -a
-Linux raspberrypi 4.19.127-4.19.y-20200614-hardened+ #1 SMP Sun Jun 14 15:06:51 UTC 2020 armv7l GNU/Linux
+Linux raspberrypi 5.4.51-5.4.y-20200804-hardened+ #1 SMP Sun Jun 14 15:06:51 UTC 2020 armv7l GNU/Linux
 ```
 
 This command builds kernel:
@@ -75,9 +75,9 @@ $ docker run \
     --rm \
     -v $PWD/output:/output \
     tschaffter/raspberry-pi-kernel-hardened \
-        --kernel-branch rpi-4.19.y \
+        --kernel-branch rpi-5.4.y \
         --kernel-defconfig bcm2711_defconfig \
-        --kernel-localversion 4.19.y-20200614-hardened
+        --kernel-localversion 5.4.y-20200804-hardened
 Cloning into '/home/builder/tools'...
 Installing cross compiler toolchain
 Checking out files: 100% (19059/19059), done.
@@ -89,8 +89,8 @@ Moving .deb packages to /output
 SUCCESS The kernel has been successfully packaged.
 
 INSTALL
-sudo dpkg -i linux-*-4.19.y-20200614-hardened*.deb
-sudo sh -c "echo 'kernel=vmlinuz-4.19.127-4.19.y-20200614-hardened+' >> /boot/config.txt"
+sudo dpkg -i linux-*-5.4.y-20200804-hardened*.deb
+sudo sh -c "echo 'kernel=vmlinuz-5.4.51-5.4.y-20200804-hardened+' >> /boot/config.txt"
 sudo reboot
 
 ENABLE SELinux
@@ -129,9 +129,9 @@ $ docker run \
     -v $PWD/tools:/home/builder/tools \
     -v $PWD/linux:/home/builder/linux \
     tschaffter/raspberry-pi-kernel-hardened \
-        --kernel-branch rpi-4.19.y \
+        --kernel-branch rpi-5.4.y \
         --kernel-defconfig bcm2711_defconfig \
-        --kernel-localversion 4.19.y-20200614-hardened
+        --kernel-localversion 5.4.y-20200804-hardened
 ```
 
 ## Contributing change
