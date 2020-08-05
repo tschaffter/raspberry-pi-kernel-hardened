@@ -77,7 +77,7 @@ $ docker run \
     tschaffter/raspberry-pi-kernel-hardened \
         --kernel-branch rpi-5.4.y \
         --kernel-defconfig bcm2711_defconfig \
-        --kernel-localversion 5.4.y-20200804-hardened
+        --kernel-localversion 5.4.y-$(date '+%Y%m%d')-hardened
 Cloning into '/home/builder/tools'...
 Installing cross compiler toolchain
 Checking out files: 100% (19059/19059), done.
@@ -131,7 +131,7 @@ $ docker run \
     tschaffter/raspberry-pi-kernel-hardened \
         --kernel-branch rpi-5.4.y \
         --kernel-defconfig bcm2711_defconfig \
-        --kernel-localversion 5.4.y-20200804-hardened
+        --kernel-localversion 5.4.y-$(date '+%Y%m%d')-hardened
 ```
 
 ## Contributing change
