@@ -11,12 +11,12 @@ enhanced security support using a single command.
 
 ## Features
 
-- Dockerized tool to cross-compile the kernel with a single command
+- Dockerized tool to cross-compile an hardened kernel for the Pi with a single command
 - Hardened kernel features
-  - Enable Audit
-  - Enable SELinux
+  - Add Audit support
+  - Add SELinux support
 
-## Builder options
+## Usage
 
 Run the folllowing command to see the options of the builder:
 
@@ -30,7 +30,7 @@ Usage: build-kernel.sh [--kernel-branch <arg>] [--kernel-defconfig <arg>] [--ker
     -h, --help: Prints help
 ```
 
-## Build an hardened kernel
+## Build the hardened kernel
 
 ### Identify the kernel version to build
 
@@ -136,11 +136,8 @@ $ docker run \
 
 ## Contributing change
 
-
-
 Please read the [`CONTRIBUTING.md`](CONTRIBUTING.md) for details on how to
 contribute to this project.
-
 
 <!-- Definitions -->
 
