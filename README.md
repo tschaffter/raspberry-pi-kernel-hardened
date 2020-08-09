@@ -6,10 +6,8 @@
 [![GitHub CI](https://img.shields.io/github/workflow/status/tschaffter/raspberry-pi-kernel-hardened/ci.svg?color=94398d&labelColor=555555&logoColor=ffffff&style=for-the-badge&logo=github)](https://github.com/tschaffter/raspberry-pi-kernel-hardened)
 [![GitHub License](https://img.shields.io/github/license/tschaffter/raspberry-pi-kernel-hardened.svg?color=94398d&labelColor=555555&logoColor=ffffff&style=for-the-badge&logo=github)](https://github.com/tschaffter/raspberry-pi-kernel-hardened)
 
-## Overview
-
-Cross-compile the [Linux kernel for Raspberry Pi](https://www.raspberrypi.org/documentation/linux/kernel/building.md)
-with enhanced security using a single command.
+Cross-compile the [Linux kernel for Raspberry Pi][raspberrypi_kernel_build] with
+enhanced security support using a single command.
 
 ## Features
 
@@ -36,7 +34,7 @@ Usage: build-kernel.sh [--kernel-branch <arg>] [--kernel-defconfig <arg>] [--ker
 
 ### Identify the kernel version to build
 
-Go to the GitHub repository of the [Linux kernel of Raspberry Pi](https://github.com/raspberrypi/linux)
+Go to the GitHub repository of the [Linux kernel of Raspberry Pi][gh_raspberrypi/linux]
 and identify the name of the branch or tag that you want to build.
 
 Examples:
@@ -46,9 +44,8 @@ Examples:
 
 ### Identify the default configuration to use
 
-Go to the page [Kernel building](https://www.raspberrypi.org/documentation/linux/kernel/building.md)
-of the Raspberry Pi website to identify the default build configuration to use
-for the target Pi.
+Go to the page [Kernel building][raspberrypi_kernel_build] of the Raspberry Pi
+website to identify the default build configuration to use for the target Pi.
 
 Examples:
 
@@ -99,7 +96,7 @@ sudo reboot
 
 ENABLE SELinux
 sudo apt-get install selinux-basics selinux-policy-default auditd
-sudo sh -c "echo ' selinux=1 security=selinux' >> /boot/cmdline.txt"
+sudo sh -c "sed -i '$ s/$/ selinux=1 security=selinux/' /boot/cmdline.txt"
 sudo touch /.autorelabel
 sudo reboot
 sestatus
@@ -114,8 +111,7 @@ command.
 ## Customize your build
 
 - The builder uses all the CPU cores available to the Docker container. By default,
-that is all the CPU cores of the host. Use
-[Docker runtime options](https://docs.docker.com/config/containers/resource_constraints/#cpu)
+that is all the CPU cores of the host. Use [Docker runtime options][docker_runtime_options]
 to limit the usage of CPU cores by the builder.
 
 - The builder clones two GitHub repositories, the cross-compiler toolchain and
@@ -140,5 +136,14 @@ $ docker run \
 
 ## Contributing change
 
+
+
 Please read the [`CONTRIBUTING.md`](CONTRIBUTING.md) for details on how to
 contribute to this project.
+
+
+<!-- Definitions -->
+
+[raspberrypi_kernel_build]: https://www.raspberrypi.org/documentation/linux/kernel/building.md
+[gh_raspberrypi/linux]: https://github.com/raspberrypi/linux
+[docker_runtime_options]: https://docs.docker.com/config/containers/resource_constraints/#cpu
