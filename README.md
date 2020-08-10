@@ -7,7 +7,7 @@
 [![GitHub License](https://img.shields.io/github/license/tschaffter/raspberry-pi-kernel-hardened.svg?color=94398d&labelColor=555555&logoColor=ffffff&style=for-the-badge&logo=github)](https://github.com/tschaffter/raspberry-pi-kernel-hardened)
 
 Cross-compile the [Linux kernel for Raspberry Pi][raspberrypi_kernel_build] with
-enhanced security support using a single command.
+enhanced security support in a single command.
 
 ## Features
 
