@@ -12,7 +12,7 @@ enhanced security support using a single command.
 ## Features
 
 - Dockerized tool to cross-compile an hardened kernel for the Pi with a single command
-- Hardened kernel features
+- Hardens the Raspberry Pi Linux kernel
   - Add Audit support
   - Add SELinux support
 
@@ -107,6 +107,12 @@ sestatus
 Copy the Debian packages `$PWD/output/*.deb` to the target Raspbery Pi, for
 example using `scp`, then follow the instructions given at the end of the build
 command.
+
+## Update the kernel
+
+Repeat the same protocol as given above to build and install a newer version of
+the kernel. After installing the `*.deb` packages with `dpkg`, you only have to
+update `/boot/config.txt` so that the new kernel is loaded at boot.
 
 ## Customize your build
 
