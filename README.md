@@ -11,24 +11,22 @@ enhanced security support in a single command.
 
 ## Features
 
-- Dockerized tool to cross-compile an hardened kernel for the Pi with a single command
-- Hardens the Raspberry Pi Linux kernel
-  - Add Audit support
-  - Add SELinux support
+- Dockerized tool to cross-compile an hardened Linux kernel for the Pi
+- Hardens the Linux kernel by adding
+  - Audit support
+  - SELinux support
 
 ## Usage
 
-Run the folllowing command to see the options of the builder:
+This command shows the options of the builder:
 
-```console
-$ docker run --rm tschaffter/raspberry-pi-kernel-hardened
-Cross-compiling hardened kernels for Raspberry Pi
-Usage: build-kernel.sh [--kernel-branch <arg>] [--kernel-defconfig <arg>] [--kernel-localversion <arg>] [-h|--help]
-    --kernel-branch: Kernel branch to build (default: '')
-    --kernel-defconfig: Default kernel config to use (default: '')
-    --kernel-localversion: Kernel local version (default: '')
-    -h, --help: Prints help
-```
+    $ docker run --rm tschaffter/raspberry-pi-kernel-hardened
+    Cross-compiling hardened kernels for Raspberry Pi
+    Usage: build-kernel.sh [--kernel-branch <arg>] [--kernel-defconfig <arg>] [--kernel-localversion <arg>] [-h|--help]
+        --kernel-branch: Kernel branch to build (default: '')
+        --kernel-defconfig: Default kernel config to use (default: '')
+        --kernel-localversion: Kernel local version (default: '')
+        -h, --help: Prints help
 
 ## Build the hardened kernel
 
@@ -45,7 +43,7 @@ Examples:
 ### Identify the default configuration to use
 
 Go to the page [Kernel building][raspberrypi_kernel_build] of the Raspberry Pi
-website to identify the default build configuration to use for the target Pi.
+website to identify the configuration to apply for your Pi.
 
 Examples:
 
@@ -53,92 +51,89 @@ Examples:
 - `bcm2709_defconfig` for Raspberry Pi 2, Pi 3, Pi 3+, and Compute Module 3
 - `bcm2711_defconfig` for Raspberry Pi 4
 
-Check the above documentation to make sure that these examples are up-to-date.
+Please visit the above page to make sure that these examples are up-to-date.
 
 ### Cross-compile the kernel
 
-The command below builds the branch `rpi-5.4.y` for the Raspberry Pi 4
-(`bcm2711_defconfig`). Because this branch is in progress, we include today's
-date to the value of `--kernel-localversion` (`5.4.y-20200804-hardened`). You
-can set the value of `--kernel-localversion` to anything you want.
+Below is a command that build the branch `rpi-5.4.y` for the Raspberry Pi 4
+(`bcm2711_defconfig`). Because this branch is still in development, we recommand
+to include today's date to the value of `--kernel-localversion`. The value of
+`--kernel-localversion` can be set to anything you want.
 
-Once installed, the full kernel name will be:
+    $ mkdir -p output && docker run \
+        --rm \
+        -v $PWD/output:/output \
+        tschaffter/raspberry-pi-kernel-hardened \
+            --kernel-branch rpi-5.4.y \
+            --kernel-defconfig bcm2711_defconfig \
+            --kernel-localversion $(date '+%Y%m%d')-hardened
+    Cloning into '/home/builder/tools'...
+    Installing cross compiler toolchain
+    Checking out files: 100% (19059/19059), done.
+    Getting kernel source code
+    Cloning into '/home/builder/linux'...
+    ...
 
-```console
-$ uname -a
-Linux raspberrypi 5.4.51-5.4.y-20200804-hardened+ #1 SMP Sun Jun 14 15:06:51 UTC 2020 armv7l GNU/Linux
-```
+    Moving .deb packages to /output
+    SUCCESS The kernel has been successfully packaged.
 
-This command builds kernel:
+    INSTALL
+    sudo dpkg -i linux-*-5.4.y-20200804-hardened*.deb
+    sudo sh -c "echo 'kernel=vmlinuz-5.4.51-20200804-hardened+' >> /boot/config.txt"
+    sudo reboot
 
-```console
-$ docker run \
-    --rm \
-    -v $PWD/output:/output \
-    tschaffter/raspberry-pi-kernel-hardened \
-        --kernel-branch rpi-5.4.y \
-        --kernel-defconfig bcm2711_defconfig \
-        --kernel-localversion 5.4.y-$(date '+%Y%m%d')-hardened
-Cloning into '/home/builder/tools'...
-Installing cross compiler toolchain
-Checking out files: 100% (19059/19059), done.
-Getting kernel source code
-Cloning into '/home/builder/linux'...
-...
+    ENABLE SELinux
+    sudo apt-get install selinux-basics selinux-policy-default auditd
+    sudo sh -c "sed -i '$ s/$/ selinux=1 security=selinux/' /boot/cmdline.txt"
+    sudo touch /.autorelabel
+    sudo reboot
+    sestatus
 
-Moving .deb packages to /output
-SUCCESS The kernel has been successfully packaged.
+After installing the above kernel, its name will be:
 
-INSTALL
-sudo dpkg -i linux-*-5.4.y-20200804-hardened*.deb
-sudo sh -c "echo 'kernel=vmlinuz-5.4.51-5.4.y-20200804-hardened+' >> /boot/config.txt"
-sudo reboot
+    $ uname -a
+    Linux raspberrypi 5.4.51-20200804-hardened+ #1 SMP Sun Jun 14 15:06:51 UTC 2020 armv7l GNU/Linux
 
-ENABLE SELinux
-sudo apt-get install selinux-basics selinux-policy-default auditd
-sudo sh -c "sed -i '$ s/$/ selinux=1 security=selinux/' /boot/cmdline.txt"
-sudo touch /.autorelabel
-sudo reboot
-sestatus
-```
+**Note:** The builder inside the docker container runs as a non-root user. The command
+`mkdir output` included in the above command ensures that the builder will be able
+to save the output kernel files to the output folder.
 
 ## Install the kernel
 
-Copy the Debian packages `$PWD/output/*.deb` to the target Raspbery Pi, for
-example using `scp`, then follow the instructions given at the end of the build
-command.
+Copy the Debian packages `*.deb` generated to the target Raspbery Pi, for example
+using `scp`. Then follow the instructions given at the end of the command used to
+build the kernel (see above).
 
 ## Update the kernel
 
 Repeat the same protocol as given above to build and install a newer version of
-the kernel. After installing the `*.deb` packages with `dpkg`, you only have to
-update `/boot/config.txt` so that the new kernel is loaded at boot.
+the kernel. The only difference is that after installing the `*.deb` packages
+with `dpkg`, you only have to update `/boot/config.txt` so that the new kernel
+is loaded at boot.
 
-## Customize your build
+## Customize the build
 
 - The builder uses all the CPU cores available to the Docker container. By default,
 that is all the CPU cores of the host. Use [Docker runtime options][docker_runtime_options]
 to limit the usage of CPU cores by the builder.
 
-- The builder clones two GitHub repositories, the cross-compiler toolchain and
+- The builder clones two GitHub repositories: the cross-compiler toolchain and
 the source code of the kernel, unless their target directories already exist
 (`/home/builder/tools` and `/home/builder/linux`). When running the dockerized
-builder, you can mount volumes that points to these two directories to specify
-a different toolchain and kernel source code.
+builder, you can specify a different toolchain and kernel source code by mounting
+volumes that points to these two directories. For example,
 
-```console
-$ git clone <toolchain-repo> tools
-$ git clone <kernel-repo> linux
-$ docker run \
-    --rm \
-    -v $PWD/output:/output \
-    -v $PWD/tools:/home/builder/tools \
-    -v $PWD/linux:/home/builder/linux \
-    tschaffter/raspberry-pi-kernel-hardened \
-        --kernel-branch rpi-5.4.y \
-        --kernel-defconfig bcm2711_defconfig \
-        --kernel-localversion 5.4.y-$(date '+%Y%m%d')-hardened
-```
+        $ git clone <toolchain-repo> tools
+        $ git clone <kernel-repo> linux
+        $ mkdir -p output && docker run \
+            --rm \
+            -v $PWD/output:/output \
+            -v $PWD/tools:/home/builder/tools \
+            -v $PWD/linux:/home/builder/linux \
+            tschaffter/raspberry-pi-kernel-hardened \
+                --kernel-branch rpi-5.4.y \
+                --kernel-defconfig bcm2711_defconfig \
+                --kernel-localversion $(date '+%Y%m%d')-hardened
 
 ## Contributing change
 
