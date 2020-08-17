@@ -112,14 +112,14 @@ build the kernel (see above).
 ### Install the kernel source
 
 You can also install the kernel source in case you need it to compile a module
-for the kernel in the future (e.g. for )
+for the kernel in the future.
 
 1. Copy the archive `linux-source-<version>.tar.xz` to the Pi.
 2. Extract the archive in `/usr/src/`.
 
         tar -xf linux-source-<version>.tar.xz
 
-3. Create the symbolic link `/usr/src/linux` to the folder extracted.
+3. Create a symbolic link `/usr/src/linux` to the folder extracted.
 
         ln -s /usr/src/linux /usr/src/linux-source-<version>.tar.xz
 
