@@ -128,7 +128,8 @@ for the kernel in the future.
 Repeat the same protocol as given above to build and install a newer version of
 the kernel. The only difference is that after installing the `*.deb` packages
 with `dpkg`, you only have to update `/boot/config.txt` so that the new kernel
-is loaded at boot.
+is loaded at boot. The kernel source must also be updated if it has been
+previously installed.
 
 ## Customize the build
 
