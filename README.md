@@ -89,10 +89,10 @@ to include today's date to the value of `--kernel-localversion`. The value of
     sudo reboot
     sestatus
 
-After installing the above kernel, its name will be:
+After installing the above kernel, its version will be:
 
-    $ uname -a
-    Linux raspberrypi 5.4.51-20200804-hardened+ #1 SMP Sun Jun 14 15:06:51 UTC 2020 armv7l GNU/Linux
+    $ uname -r
+    5.4.51-20200804-hardened+
 
 **Note:** The builder inside the docker container runs as a non-root user. The command
 `mkdir output` included in the above command ensures that the builder will be able
@@ -103,6 +103,25 @@ to save the output kernel files to the output folder.
 Copy the Debian packages `*.deb` generated to the target Raspbery Pi, for example
 using `scp`. Then follow the instructions given at the end of the command used to
 build the kernel (see above).
+
+- `linux-headers`: The kernel headers, required when compiling any code that
+  interfaces with the kernel.
+- `linux-image`: The kernel image and the associated modules.
+- `linux-libc-dev`: Linux support headers for userspace development.
+
+### Install the kernel source
+
+You can also install the kernel source in case you need it to compile a module
+for the kernel in the future (e.g. for )
+
+1. Copy the archive `linux-source-<version>.tar.xz` to the Pi.
+2. Extract the archive in `/usr/src/`.
+
+        tar -xf linux-source-<version>.tar.xz
+
+3. Create the symbolic link `/usr/src/linux` to the folder extracted.
+
+        ln -s /usr/src/linux /usr/src/linux-source-<version>.tar.xz
 
 ## Update the kernel
 

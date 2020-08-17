@@ -224,6 +224,12 @@ ls -al
 echo "Moving .deb packages to $_output_dir"
 mv $_workdir/*.deb /output
 
+echo "Compressing linux source to $_output_dir"
+mv linux linux-source-${_kernel_version}-${_arg_kernel_localversion}+
+tar cJf \
+	$_output_dir/linux-source-${_kernel_version}-${_arg_kernel_localversion}+.tar.xz \
+	linux-source-${_kernel_version}-${_arg_kernel_localversion}+
+
 
 echo "SUCCESS The kernel has been successfully packaged."
 echo ""
