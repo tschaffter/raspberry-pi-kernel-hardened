@@ -224,13 +224,15 @@ ls -al
 echo "Moving .deb packages to $_output_dir"
 mv $_workdir/*.deb /output
 
-echo "Compressing linux source to $_output_dir"
-mv linux linux-source-${_kernel_version}-${_arg_kernel_localversion}+
-tar cJf \
-	$_output_dir/linux-source-${_kernel_version}-${_arg_kernel_localversion}+.tar.xz \
-	linux-source-${_kernel_version}-${_arg_kernel_localversion}+
+echo "Compressing kernel source to $_output_dir"
+make clean
+mv $_workdir/linux $_workdir/linux-source-${_kernel_version}-${_arg_kernel_localversion}+
+tar cjf \
+	$_output_dir/linux-source-${_kernel_version}-${_arg_kernel_localversion}+.tar.bz2 \
+	$_workdir/linux-source-${_kernel_version}-${_arg_kernel_localversion}+
 
 
+echo ""
 echo "SUCCESS The kernel has been successfully packaged."
 echo ""
 echo "INSTALL"
@@ -244,5 +246,9 @@ echo "sudo sh -c \"sed -i '$ s/$/ selinux=1 security=selinux/' /boot/cmdline.txt
 echo "sudo touch /.autorelabel"
 echo "sudo reboot"
 echo "sestatus"
+echo ""
+echo "INSTALL SOURCE (OPTIONAL)"
+echo "tar xjf linux-source-${_kernel_version}-${_arg_kernel_localversion}+.tar.bz2 --directory /usr/src/"
+echo "ln -s linux-source-${_kernel_version}-${_arg_kernel_localversion}+ /usr/src/linux"
 
 # ] <-- needed because of Argbash
