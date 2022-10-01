@@ -121,7 +121,7 @@ for the kernel in the future.
 
 3. Create a symbolic link `/usr/src/linux` to the folder extracted.
 
-        ln -s /usr/src/linux /usr/src/linux-source-<version>.tar.xz
+        ln -s /usr/src/linux /usr/src/linux-source-<version>
 
 ## Update the kernel
 
